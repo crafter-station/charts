@@ -1,0 +1,17 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`multi-series + x-axis + legend snapshot multi-series with legend + x-axis 1`] = `
+"       │     ⢀⡠⠤⠒⠊⠉⠉⠉⠉⠒⠢⣀
+    120┤   ⡠⠔⠁           ⠑⠢⣀
+       │⢀⠔⠉                 ⠑⠢⣀
+    100┤⠁                      ⠑⢄
+       │                         ⠉⠢⡀            ⡠⠔
+     80┤⣀                          ⣀⠑⠢⠤⣀⣀⣀⣀⣀⣀⠤⠒⠉
+     60┤ ⠉⠑⠢⢄                  ⡠⠔⠊⠉ ⠉⠑⠢⢄
+       │     ⠑⢄             ⢀⠔⠉         ⠑⢄⡀
+     40┤       ⠑⠢⡀       ⢀⡠⠒⠁             ⠈⠢⡀
+       │         ⠈⠒⠤⢄⣀⣀⡠⠒⠁                  ⠈⠒⠤⢄⣀⣀
+        ┴─────────────┴─────────────┴─────────────
+        0            10            20
+        ─ Price  ─ Vol"
+`;

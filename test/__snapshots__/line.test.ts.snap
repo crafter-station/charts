@@ -1,0 +1,14 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`line chart snapshot test 1`] = `
+"       │   ⡠⠊⠉⢢                ⢀⠔⠉⠱⡀
+       │  ⡰⠁   ⠣⡀             ⢠⠃   ⠑⡄
+     80┤ ⢠⠃     ⢱            ⢀⠎     ⠘⡄
+       │⢀⠎       ⡇          ⢀⠎       ⢣
+     60┤⡜        ⠸⡀         ⡸        ⠘⡄
+     40┤⠁         ⢱        ⢀⠇         ⠱⡀
+       │           ⢇       ⡜           ⢣
+     20┤           ⠘⡄     ⡸
+       │            ⠘⡄   ⢠⠃
+       │             ⠘⠤⣀⠔⠁"
+`;
