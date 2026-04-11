@@ -100,9 +100,7 @@ const chartApiCode = `chart({ width: 60, height: 14, charset: "box" })
 					<div class="hero-preview">
 						<div class="hero-cards">
 							<div class="preview-card">
-								<div class="preview-header">
-									<span class="card-label">METRICS</span>
-								</div>
+								<div class="preview-header"><span class="card-label">METRICS</span></div>
 								<div class="preview-body">
 									<div class="spark-row"><span class="spark-label">cpu</span><pre class="spark" set:html={demos.sparklineCpu} /></div>
 									<div class="spark-row"><span class="spark-label">mem</span><pre class="spark" set:html={demos.sparklineMemory} /></div>
@@ -110,19 +108,21 @@ const chartApiCode = `chart({ width: 60, height: 14, charset: "box" })
 								</div>
 							</div>
 							<div class="preview-card">
-								<div class="preview-header">
-									<span class="card-label">OHLC</span>
-								</div>
+								<div class="preview-header"><span class="card-label">OHLC</span></div>
 								<div class="preview-body">
 									<pre class="chart-output hero-chart" set:html={demos.heroChart} />
 								</div>
 							</div>
-							<div class="preview-card hero-wide-card">
-								<div class="preview-header">
-									<span class="card-label">REVENUE vs COSTS</span>
-								</div>
+							<div class="preview-card">
+								<div class="preview-header"><span class="card-label">REVENUE</span></div>
 								<div class="preview-body">
 									<pre class="chart-output hero-chart" set:html={demos.heroMultiLine} />
+								</div>
+							</div>
+							<div class="preview-card">
+								<div class="preview-header"><span class="card-label">SYSTEM</span></div>
+								<div class="preview-body">
+									<pre class="chart-output hero-chart" set:html={demos.heroGauge} />
 								</div>
 							</div>
 						</div>
@@ -466,11 +466,7 @@ const chartApiCode = `chart({ width: 60, height: 14, charset: "box" })
 			.hero-cards {
 				display: grid;
 				grid-template-columns: 1fr 1fr;
-				gap: 10px;
-			}
-
-			.hero-wide-card {
-				grid-column: 1 / -1;
+				gap: 8px;
 			}
 
 			.preview-card {
@@ -692,6 +688,7 @@ const chartApiCode = `chart({ width: 60, height: 14, charset: "box" })
 
 			@media (max-width: 768px) {
 				.hero-grid { grid-template-columns: 1fr; gap: 32px; }
+				.hero-cards { grid-template-columns: 1fr; }
 				.example-grid, .api-grid { grid-template-columns: 1fr; }
 				.example-card.wide { grid-column: 1; }
 				.feature-grid { grid-template-columns: 1fr 1fr; }
