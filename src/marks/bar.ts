@@ -52,10 +52,13 @@ function renderVerticalBars(
 		const yStart = Math.min(topRow, bottomRow);
 		const yEnd = Math.max(topRow, bottomRow);
 
+		// Fill the bar entirely with solid █. The previous version used ▇ at
+		// the top edge to hint at fractional height, but that leaves a 1/8
+		// transparent strip against the terminal background — visible as a
+		// dark gap above every bar. Row-level resolution is plenty.
 		for (let y = yStart; y <= yEnd; y++) {
 			for (let x = barX; x < barX + barWidth && x < plotArea.x + plotArea.w; x++) {
-				const ch = y === yStart ? "▇" : "█";
-				grid.set(x, y, ch, fg);
+				grid.set(x, y, "█", fg);
 			}
 		}
 	}

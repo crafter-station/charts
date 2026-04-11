@@ -68,6 +68,11 @@ const chartApiCode = `chart({ width: 60, height: 14, charset: "box" })
 		<nav>
 			<div class="nav-inner">
 				<a href="/" class="logo">
+					<svg class="logo-mark" width="28" height="28" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+						<rect width="48" height="48" rx="10" fill="#1a2328" stroke="#2e3e44" stroke-width="1"/>
+						<text x="6" y="22" font-family="monospace" font-size="14" fill="#d4943a">▅▇█</text>
+						<polyline points="8,38 16,28 24,32 32,24 40,30" fill="none" stroke="#06b6d4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
 					<span class="logo-mono">@crafter/</span><span class="logo-serif">charts</span>
 				</a>
 				<div class="nav-links">
@@ -312,6 +317,15 @@ const chartApiCode = `chart({ width: 60, height: 14, charset: "box" })
 			.logo {
 				text-decoration: none;
 				font-size: 18px;
+				display: inline-flex;
+				align-items: center;
+				gap: 10px;
+			}
+
+			.logo-mark {
+				flex-shrink: 0;
+				display: block;
+				border-radius: 6px;
 			}
 
 			.logo-mono {

@@ -6,6 +6,13 @@ export interface HistogramOptions {
 	height?: number;
 	color?: AnsiColor;
 	showCounts?: boolean;
+	/**
+	 * Background character for empty cells. Defaults to " " (space).
+	 * Pass "░" for a visible textured background that distinguishes the plot
+	 * area from the surrounding terminal and prevents visual "holes" when
+	 * short bars sit next to tall ones.
+	 */
+	background?: string;
 }
 
 function computeBins(data: number[], numBins: number): { edges: number[]; counts: number[] } {
@@ -28,8 +35,16 @@ function computeBins(data: number[], numBins: number): { edges: number[]; counts
 	return { edges, counts };
 }
 
-const VERT_BLOCKS = [" ", "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"];
-
+/**
+ * Render a histogram where every filled cell is a solid `█` block — no
+ * fractional glyphs that leave transparent pixels. We pick the bar height
+ * per bin by rounding to a whole row, so the chart reads as a clean stepped
+ * silhouette without any visual holes.
+ *
+ * The tradeoff: height is discrete. A `height: 8` histogram has exactly 8
+ * possible bar heights. That's fine for typical displays — the resolution
+ * is plenty to distinguish a bell curve from a uniform distribution.
+ */
 export function sparkHistogram(data: number[], options: HistogramOptions = {}): string {
 	if (data.length === 0) return "";
 
@@ -37,6 +52,7 @@ export function sparkHistogram(data: number[], options: HistogramOptions = {}): 
 	const width = options.width ?? 30;
 	const height = options.height ?? 8;
 	const fg = options.color ? ANSI_COLORS[options.color] : null;
+	const background = options.background ?? " ";
 
 	const { edges, counts } = computeBins(data, bins);
 	const maxCount = Math.max(...counts, 1);
@@ -44,23 +60,21 @@ export function sparkHistogram(data: number[], options: HistogramOptions = {}): 
 	const colsPerBin = Math.max(1, Math.floor(width / bins));
 	const lines: string[] = [];
 
+	// Pre-compute bar heights as whole rows so every cell is either fully
+	// filled or fully empty — no fractional blocks that leave negative space.
+	const barHeights = counts.map(c => {
+		if (c === 0) return 0;
+		// Always show at least 1 row for any bin with data, so non-empty
+		// tails remain visible instead of disappearing into the axis.
+		return Math.max(1, Math.round((c / maxCount) * height));
+	});
+
 	for (let row = height - 1; row >= 0; row--) {
 		let line = "";
 		for (let b = 0; b < bins; b++) {
-			const count = counts[b]!;
-			const barHeight = (count / maxCount) * height;
-			const fullRows = Math.floor(barHeight);
-			const partial = barHeight - fullRows;
-
-			let ch: string;
-			if (row < fullRows) {
-				ch = "█";
-			} else if (row === fullRows && partial > 0.05) {
-				const idx = Math.round(partial * (VERT_BLOCKS.length - 1));
-				ch = VERT_BLOCKS[idx] ?? " ";
-			} else {
-				ch = " ";
-			}
+			const barHeight = barHeights[b]!;
+			// row 0 is the bottom, so fill when row < barHeight
+			const ch = row < barHeight ? "█" : background;
 			line += ch.repeat(colsPerBin);
 		}
 
