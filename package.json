@@ -1,6 +1,6 @@
 {
   "name": "@crafter/charts",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Recharts for your terminal. Line, bar, scatter, candlestick, sparkline, heatmap, histogram, gauge — braille rendering, composable API, deterministic snapshots, zero deps, TypeScript.",
   "type": "module",
   "main": "./dist/index.js",

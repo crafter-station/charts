@@ -94,22 +94,36 @@ const chartApiCode = `chart({ width: 60, height: 14, charset: "box" })
 						<p class="hero-sub">Sparklines, line, bar, scatter, candlestick. Composable API, deterministic snapshots, zero deps.</p>
 						<div class="hero-actions">
 							<a href="#install" class="cta-btn">bun add @crafter/charts</a>
-							<span class="hero-meta">v0.1.0 &middot; &lt;50KB &middot; TypeScript</span>
+							<span class="hero-meta">v0.2.1 &middot; &lt;50KB &middot; 15 chart types &middot; TypeScript</span>
 						</div>
 					</div>
 					<div class="hero-preview">
-						<div class="preview-card">
-							<div class="preview-header">
-								<span class="card-label">DASHBOARD</span>
-								<span class="card-meta">live metrics</span>
+						<div class="hero-cards">
+							<div class="preview-card">
+								<div class="preview-header">
+									<span class="card-label">METRICS</span>
+								</div>
+								<div class="preview-body">
+									<div class="spark-row"><span class="spark-label">cpu</span><pre class="spark" set:html={demos.sparklineCpu} /></div>
+									<div class="spark-row"><span class="spark-label">mem</span><pre class="spark" set:html={demos.sparklineMemory} /></div>
+									<div class="spark-row"><span class="spark-label">err</span><pre class="spark" set:html={demos.sparklineErrors} /></div>
+								</div>
 							</div>
-							<div class="preview-body">
-								<div class="spark-row"><span class="spark-label">cpu</span><pre class="spark" set:html={demos.sparklineCpu} /></div>
-								<div class="spark-row"><span class="spark-label">mem</span><pre class="spark" set:html={demos.sparklineMemory} /></div>
-								<div class="spark-row"><span class="spark-label">req</span><pre class="spark" set:html={demos.sparklineStock} /></div>
-								<div class="spark-row"><span class="spark-label">err</span><pre class="spark" set:html={demos.sparklineErrors} /></div>
-								<div class="preview-divider"></div>
-								<pre class="chart-output hero-chart" set:html={demos.heroChart} />
+							<div class="preview-card">
+								<div class="preview-header">
+									<span class="card-label">OHLC</span>
+								</div>
+								<div class="preview-body">
+									<pre class="chart-output hero-chart" set:html={demos.heroChart} />
+								</div>
+							</div>
+							<div class="preview-card hero-wide-card">
+								<div class="preview-header">
+									<span class="card-label">REVENUE vs COSTS</span>
+								</div>
+								<div class="preview-body">
+									<pre class="chart-output hero-chart" set:html={demos.heroMultiLine} />
+								</div>
 							</div>
 						</div>
 					</div>
@@ -447,6 +461,16 @@ const chartApiCode = `chart({ width: 60, height: 14, charset: "box" })
 				font-family: var(--font-mono);
 				font-size: 12px;
 				color: var(--text-faded);
+			}
+
+			.hero-cards {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 10px;
+			}
+
+			.hero-wide-card {
+				grid-column: 1 / -1;
 			}
 
 			.preview-card {

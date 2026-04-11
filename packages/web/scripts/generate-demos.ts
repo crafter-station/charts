@@ -278,12 +278,17 @@ function makeVariants() {
 	const varBar45 = `<span style="color:#eab308">${sparkBar(0.45, { width: 20 }).replace(/\s+\d+%$/, "")}</span> 45%`;
 	const varBar15 = `<span style="color:#ef4444">${sparkBar(0.15, { width: 20 }).replace(/\s+\d+%$/, "")}</span> 15%`;
 
-	const areaData = [
-		[0, 10, 30, 60, 80, 90, 85, 65, 35, 10, 0, 0, 0, 0, 0, 0, 5, 15, 35, 70, 85, 95, 90, 70, 40, 15, 0, 0, 0, 0, 0, 5, 15, 30, 50, 70, 85, 95, 100, 100],
-		[100, 95, 85, 70, 50, 30, 20, 40, 65, 85, 95, 100, 100, 100, 100, 100, 95, 85, 65, 30, 15, 5, 10, 30, 60, 85, 100, 100, 100, 100, 100, 95, 85, 70, 50, 30, 15, 5, 0, 0],
-		[100, 100, 100, 100, 100, 100, 95, 85, 65, 30, 15, 5, 10, 30, 60, 85, 100, 100, 100, 100, 100, 95, 85, 65, 30, 15, 5, 10, 30, 60, 85, 100, 100, 100, 100, 100, 100, 100, 100, 100],
-	];
-	const varArea = areaData.map(row => sparkArea(row)).join("\n");
+	// Three smooth series with clear, distinct shapes so the demo reads as
+	// "look — you can render areas under curves".
+	const sine = Array.from({ length: 50 }, (_, i) => 50 + Math.sin(i / 4) * 40);
+	const bell = Array.from({ length: 50 }, (_, i) => Math.exp(-((i - 25) ** 2) / 200) * 100);
+	const ramp = Array.from({ length: 50 }, (_, i) => 20 + (i / 49) * 70 + Math.sin(i / 3) * 8);
+
+	const varArea = [
+		ansiToHtml(sparkArea(sine, { height: 3 })),
+		ansiToHtml(sparkArea(bell, { height: 3 })),
+		ansiToHtml(sparkArea(ramp, { height: 3 })),
+	].join("\n");
 
 	return { varColumn, varWinLoss, varBar90, varBar45, varBar15, varArea };
 }

@@ -92,41 +92,62 @@ export function sparkWinLoss(data: number[], options: WinLossOptions = {}): stri
 }
 
 // ── Area Sparkline ──────────────────────────────────────
-// Like regular sparkline but fills below the curve with lighter blocks.
-
-const AREA_FILL = ["░", "░", "▒", "▒", "▓", "▓", "█", "█"];
+// Multi-row filled sparkline. Below the curve, cells are always solid `█`;
+// the top-most row of each bar uses a fractional block (▁▂▃…▇) so the
+// silhouette follows the data smoothly.
+//
+// The subtle correctness point: in the old implementation each row decided
+// independently whether to show ▁, ▄, █ or space, which produced negative-space
+// triangles inside the filled area (the "cheese holes" bug). The new version
+// computes a single integer height per cell and fills every row *below* that
+// top row with solid `█`, guaranteeing a closed, contiguous shape.
 
 export interface AreaSparklineOptions {
 	width?: number;
+	height?: number;
 	color?: AnsiColor;
+	/**
+	 * Character for cells above the curve. Defaults to " " (space) so the
+	 * chart sits naturally on the terminal background. Pass "░" for a visible
+	 * plot area that frames the data.
+	 */
+	background?: string;
 }
 
 export function sparkArea(data: number[], options: AreaSparklineOptions = {}): string {
 	if (data.length === 0) return "";
 
 	const width = options.width ?? data.length;
+	const height = options.height ?? 3;
 	const sampled = downsample(data, width);
 	const min = Math.min(...sampled);
 	const max = Math.max(...sampled);
 	const range = max - min || 1;
-
-	const height = 3;
-	const lines: string[] = [];
+	const background = options.background ?? " ";
 	const fg = options.color ? ANSI_COLORS[options.color] : null;
 
+	// One fractional block for each eighth of a cell — used for the very top
+	// row of every bar so the silhouette is smooth.
+	const TOP_BLOCKS = [" ", "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"] as const;
+
+	// For each cell, compute how many total eighths of vertical space the bar
+	// fills (0 = empty, height*8 = fully filled).
+	const eighths = sampled.map((v) => {
+		const normalized = (v - min) / range;
+		return Math.round(normalized * height * 8);
+	});
+
+	const lines: string[] = [];
 	for (let row = height - 1; row >= 0; row--) {
 		let line = "";
-		for (const v of sampled) {
-			const normalized = (v - min) / range;
-			const level = normalized * height;
-			if (level >= row + 0.75) {
+		for (const e of eighths) {
+			const rowEighths = e - row * 8;
+			if (rowEighths >= 8) {
 				line += "█";
-			} else if (level >= row + 0.25) {
-				line += row === Math.floor(level) ? "▄" : "█";
-			} else if (level >= row) {
-				line += "▁";
+			} else if (rowEighths <= 0) {
+				line += background;
 			} else {
-				line += " ";
+				line += TOP_BLOCKS[rowEighths] ?? "▁";
 			}
 		}
 		if (fg) lines.push(`${fg}${line}${ANSI_RESET}`);
