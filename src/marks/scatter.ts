@@ -10,11 +10,11 @@ export function renderScatter(
 	yDomain: [number, number],
 	plotArea: { x: number; y: number; w: number; h: number },
 	fg: string | null,
-	charset: "braille" | "block" | "ascii" = "braille",
+	charset: string = "braille",
 ): void {
 	if (xValues.length === 0) return;
 
-	if (charset === "braille") {
+	if (charset === "braille" || charset === "box") {
 		const xScale = linearScale(xDomain, [0, plotArea.w * 2 - 1]);
 		const yScale = linearScale(yDomain, [0, plotArea.h * 4 - 1]);
 		renderScatterBraille(grid, xValues, yValues, xScale, yScale, plotArea, fg);
@@ -66,7 +66,7 @@ function renderScatterDirect(
 	yScale: ReturnType<typeof linearScale>,
 	plotArea: { x: number; y: number; w: number; h: number },
 	fg: string | null,
-	charset: "block" | "ascii",
+	charset: string,
 ): void {
 	const dot = charset === "block" ? "●" : "*";
 

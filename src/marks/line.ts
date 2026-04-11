@@ -42,6 +42,54 @@ export function renderLine(
 	}
 }
 
+export function renderLineBox(
+	grid: Grid,
+	values: number[],
+	yScale: Scale,
+	plotArea: { x: number; y: number; w: number; h: number },
+	fg: string | null,
+): void {
+	if (values.length === 0) return;
+
+	const mapped = values.map((v) => (v === undefined ? undefined : plotArea.h - 1 - yScale.map(v)));
+
+	for (let i = 0; i < mapped.length; i++) {
+		const y0 = mapped[i];
+		if (y0 === undefined) continue;
+
+		const col = plotArea.x + Math.round((i / Math.max(mapped.length - 1, 1)) * (plotArea.w - 1));
+		const prevCol = i > 0 ? plotArea.x + Math.round(((i - 1) / Math.max(mapped.length - 1, 1)) * (plotArea.w - 1)) : col;
+
+		if (i === 0) {
+			grid.set(col, plotArea.y + y0, "─", fg);
+			continue;
+		}
+
+		const y1 = mapped[i - 1];
+		if (y1 === undefined) continue;
+
+		if (y0 === y1) {
+			for (let c = prevCol + 1; c <= col; c++) grid.set(c, plotArea.y + y0, "─", fg);
+		} else {
+			// Horizontal from prev point to current column at prev height
+			for (let c = prevCol + 1; c < col; c++) grid.set(c, plotArea.y + y1, "─", fg);
+
+			// Vertical transition at current column
+			if (y0 < y1) {
+				// Going up: corner at top (y0) and bottom (y1)
+				grid.set(col, plotArea.y + y0, "╭", fg);
+				grid.set(col, plotArea.y + y1, "╯", fg);
+				for (let y = y0 + 1; y < y1; y++) grid.set(col, plotArea.y + y, "│", fg);
+			} else {
+				// Going down: corner at top (y1) and bottom (y0)
+				grid.set(col, plotArea.y + y1, "╮", fg);
+				grid.set(col, plotArea.y + y0, "╰", fg);
+				for (let y = y1 + 1; y < y0; y++) grid.set(col, plotArea.y + y, "│", fg);
+			}
+		}
+	}
+}
+
 function interpolatePixels(
 	canvas: { set(x: number, y: number): void },
 	x0: number,

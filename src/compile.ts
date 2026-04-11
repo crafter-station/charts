@@ -1,10 +1,11 @@
 import { renderXAxis, renderYAxis } from "./axis";
 import { encodeAnsi } from "./encoders/ansi";
+import { encodeHtml } from "./encoders/html";
 import { encodeString } from "./encoders/string";
 import { createGrid, detectWidth } from "./grid";
 import { renderBar } from "./marks/bar";
 import { renderCandlestick } from "./marks/candlestick";
-import { renderLine } from "./marks/line";
+import { renderLine, renderLineBox } from "./marks/line";
 import { renderScatter } from "./marks/scatter";
 import { autoExtent, linearScale } from "./scale";
 import type { ChartSpec } from "./spec";
@@ -22,6 +23,11 @@ export function renderChartToAnsi(spec: ChartSpec): string {
 export function renderChartToString(spec: ChartSpec): string {
 	const grid = compile(spec);
 	return encodeString(grid);
+}
+
+export function renderChartToHtml(spec: ChartSpec): string {
+	const grid = compile(spec);
+	return encodeHtml(grid);
 }
 
 function autoHeight(width: number): number {
@@ -71,7 +77,7 @@ function compile(spec: ChartSpec) {
 
 	if (allValues.length === 0) return grid;
 
-	const [yMin, yMax] = autoExtent(allValues);
+	const [yMin, yMax] = spec.yDomain ?? autoExtent(allValues);
 	const gridYScale = linearScale([yMin, yMax], [0, plotArea.h - 1]);
 	const brailleYScale = linearScale([yMin, yMax], [0, plotArea.h * 4 - 1]);
 
@@ -82,7 +88,11 @@ function compile(spec: ChartSpec) {
 	for (const mark of spec.marks) {
 		if (mark.type === "line") {
 			const values = spec.data.map((row) => row[mark.key] ?? 0);
-			renderLine(grid, values, brailleYScale, brailleYScale, plotArea, mark.color ?? null);
+			if (spec.charset === "box") {
+				renderLineBox(grid, values, gridYScale, plotArea, mark.color ?? null);
+			} else {
+				renderLine(grid, values, brailleYScale, brailleYScale, plotArea, mark.color ?? null);
+			}
 		} else if (mark.type === "bar") {
 			const values = spec.data.map((row) => row[mark.key] ?? 0);
 			renderBar(grid, values, gridYScale, plotArea, mark.color ?? null);

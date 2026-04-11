@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#1a2328; display:flex; align-items:center; justify-content:center; min-height:100vh; padding:32px; }
+.card { background:#1e2a2f; border:1px solid #2e3e44; border-radius:10px; overflow:hidden; width:520px; }
+.header { display:flex; justify-content:space-between; padding:10px 16px; border-bottom:1px solid #2e3e44; }
+.label { font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:0.08em; color:#c8a45e; text-transform:uppercase; }
+.meta { font-family:"JetBrains Mono",monospace; font-size:11px; color:#4a5c58; }
+pre { font-family:"JetBrains Mono",monospace; font-size:13px; line-height:1.0; color:#e8e0d4; padding:16px; margin:0; white-space:pre; }
+</style></head><body>
+<div class="card">
+<div class="header"><span class="label">SPARKLINE</span></div>
+<pre><span style="color:#4a5c58">sparkline([100, 105, 102, 110, 108, 115, 120, 118, 125])</span>\n\n<span style="color:#eab308"> ▁ ▁▁▂▂▂▃▃▃▄▃▄▄▅▅▅▆▆▆▇▇▇█</span>\n\n<span style="color:#4a5c58">cpu:</span>  <span style="color:#06b6d4">▄▅▆▇███▇▆▅▃▂▁   ▁▂▃▄▆▇▇██</span>\n<span style="color:#4a5c58">mem:</span>  <span style="color:#22c55e"> ▁▁▂▂▃▃▃▄▅▄▅▅▆▆▅▆▇▆▇▇▇▇██</span>\n<span style="color:#4a5c58">err:</span>  <span style="color:#ef4444">  ▁ ▁  ▃█▂▁   ▁  ▁    ▂▁ </span></pre>
+</div></body></html>

@@ -1,0 +1,77 @@
+{
+  "name": "crafter-charts",
+  "type": "dark",
+  "colors": {
+    "editor.background": "#1e2a2f",
+    "editor.foreground": "#e8e0d4",
+    "editorLineNumber.foreground": "#4a5c58",
+    "editorCursor.foreground": "#d4943a",
+    "editor.selectionBackground": "#344a5066"
+  },
+  "tokenColors": [
+    {
+      "scope": ["comment", "punctuation.definition.comment"],
+      "settings": { "foreground": "#4a5c58", "fontStyle": "italic" }
+    },
+    {
+      "scope": ["string", "string.quoted", "string.template"],
+      "settings": { "foreground": "#c8a45e" }
+    },
+    {
+      "scope": ["constant.numeric", "constant.language"],
+      "settings": { "foreground": "#d4943a" }
+    },
+    {
+      "scope": ["keyword", "storage.type", "storage.modifier"],
+      "settings": { "foreground": "#06b6d4" }
+    },
+    {
+      "scope": ["keyword.control", "keyword.operator"],
+      "settings": { "foreground": "#06b6d4" }
+    },
+    {
+      "scope": ["entity.name.function", "support.function"],
+      "settings": { "foreground": "#22c55e" }
+    },
+    {
+      "scope": ["variable", "variable.other"],
+      "settings": { "foreground": "#e8e0d4" }
+    },
+    {
+      "scope": ["variable.parameter"],
+      "settings": { "foreground": "#a89b8c" }
+    },
+    {
+      "scope": ["entity.name.type", "support.type", "support.class"],
+      "settings": { "foreground": "#d946ef" }
+    },
+    {
+      "scope": ["punctuation", "meta.brace"],
+      "settings": { "foreground": "#6b7c72" }
+    },
+    {
+      "scope": ["meta.object-literal.key"],
+      "settings": { "foreground": "#a89b8c" }
+    },
+    {
+      "scope": ["entity.name.tag"],
+      "settings": { "foreground": "#06b6d4" }
+    },
+    {
+      "scope": ["support.type.property-name"],
+      "settings": { "foreground": "#a89b8c" }
+    },
+    {
+      "scope": ["constant.other", "variable.other.constant"],
+      "settings": { "foreground": "#d4943a" }
+    },
+    {
+      "scope": ["meta.import", "keyword.control.import", "keyword.control.from", "keyword.control.export"],
+      "settings": { "foreground": "#06b6d4" }
+    },
+    {
+      "scope": ["string.quoted.module"],
+      "settings": { "foreground": "#c8a45e" }
+    }
+  ]
+}

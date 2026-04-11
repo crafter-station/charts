@@ -1,6 +1,6 @@
 import type { AnsiColor } from "./types";
 
-export type Charset = "braille" | "block" | "ascii";
+export type Charset = "braille" | "block" | "ascii" | "box";
 
 export interface MarkDef {
 	type: "line" | "bar" | "scatter" | "candlestick";
@@ -29,6 +29,7 @@ export interface ChartSpec {
 	marks: MarkDef[];
 	xAxis: AxisDef | null;
 	yAxis: AxisDef | null;
+	yDomain?: [number, number];
 	_candlestickKeys?: CandlestickKeysDef;
 }
 
@@ -38,6 +39,7 @@ export interface ChartBuilder {
 	bar(opts: { key: string; color?: AnsiColor; label?: string }): ChartBuilder;
 	scatter(opts: { key: string; color?: AnsiColor; label?: string }): ChartBuilder;
 	candlestick(opts: { open: string; high: string; low: string; close: string; color?: AnsiColor }): ChartBuilder;
+	yDomain(domain: [number, number]): ChartBuilder;
 	xAxis(opts?: AxisDef): ChartBuilder;
 	yAxis(opts?: AxisDef): ChartBuilder;
 	build(): ChartSpec;
@@ -71,6 +73,10 @@ export function chart(opts: { width?: number | "auto"; height?: number | "auto";
 		},
 		scatter(scatterOpts) {
 			spec.marks.push({ type: "scatter", ...scatterOpts });
+			return builder;
+		},
+		yDomain(domain) {
+			spec.yDomain = domain;
 			return builder;
 		},
 		candlestick(candleOpts) {

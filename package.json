@@ -1,7 +1,7 @@
 {
   "name": "@crafter/charts",
-  "version": "0.1.0",
-  "description": "Terminal-native charts. Sparklines, line, bar, scatter — composable, typed, zero deps.",
+  "version": "0.2.0",
+  "description": "Recharts for your terminal. Line, bar, scatter, candlestick, sparkline, heatmap, histogram, gauge — braille rendering, composable API, deterministic snapshots, zero deps, TypeScript.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -14,13 +14,25 @@
     }
   },
   "files": ["dist", "src"],
+  "workspaces": ["packages/*"],
   "scripts": {
     "build": "bun run build.ts",
     "test": "bun test",
     "check": "bunx --bun @biomejs/biome check --write .",
     "prepublishOnly": "bun run build"
   },
-  "keywords": ["cli", "charts", "terminal", "sparkline", "ascii", "braille", "tui"],
+  "keywords": [
+    "charts", "terminal", "cli", "tui", "sparkline", "ascii", "braille", "unicode",
+    "line-chart", "bar-chart", "scatter-plot", "candlestick", "heatmap", "histogram", "gauge",
+    "ascii-art", "ascii-chart", "terminal-chart", "cli-chart", "console",
+    "plot", "graph", "visualization", "data-viz",
+    "ansi", "box-drawing", "block-characters",
+    "snapshot", "deterministic", "ci", "testing",
+    "zero-dependencies", "typescript", "bun", "node",
+    "dashboard", "metrics", "monitoring", "devtools",
+    "recharts", "asciichart", "blessed-contrib"
+  ],
+  "homepage": "https://charts.crafter.run",
   "author": "Crafter Station",
   "license": "MIT",
   "repository": {

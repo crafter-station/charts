@@ -1,0 +1,672 @@
+---
+import { Code } from "astro:components";
+import demos from "../data/demos.json";
+import themeJson from "../themes/crafter-charts.json";
+const crafterTheme = themeJson as any;
+
+const installCode = `bun add @crafter/charts`;
+
+const usageCode = `import { plot, chart, renderToAnsi, sparkline } from "@crafter/charts";
+
+// One-liner — just pass an array
+console.log(plot([1, 5, 3, 7, 2, 8, 6, 9, 4, 10]));
+
+// Multi-series
+console.log(plot([prices, volumes], { height: 12 }));
+
+// Full control
+const c = chart({ width: 60, height: 14, charset: "braille" })
+  .data(rows, { xKey: "x" })
+  .yAxis({ format: v => "$" + v.toFixed(0) })
+  .yDomain([0, 200])
+  .line({ key: "price", color: "green", label: "Price" });
+
+console.log(renderToAnsi(c));`;
+
+const plotApiCode = `plot([1, 5, 3, 7, 2, 8])  // one array, done
+plot([sin, cos], { height: 12 })  // multi-series
+plot(data, { min: 0, max: 100 })  // fixed domain`;
+
+const sparklineApiCode = `sparkline([1, 5, 3, 7], { color: "green" })
+sparkColumn([5, -3, 7, -1], { color: "blue", negColor: "red" })
+sparkBar(75, 100, { width: 20, showPercent: true })
+sparkWinLoss([1, -1, 1, 1, -1])
+sparkArea(data, { width: 40, color: "cyan" })`;
+
+const chartApiCode = `chart({ width: 60, height: 14, charset: "box" })
+  .data(rows, { xKey: "ts" })
+  .yAxis({ format: v => "$" + v })
+  .yDomain([0, 200])
+  .line({ key: "price", color: "green", label: "Price" })`;
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="description" content="Recharts for your terminal. Line, bar, scatter, candlestick, sparkline, heatmap, histogram, gauge. Braille rendering, composable API, deterministic snapshots, zero deps, TypeScript. Built for CLI tools, CI logs, and AI agents." />
+		<meta name="keywords" content="terminal charts, cli charts, ascii charts, sparkline, braille, tui, data visualization, typescript, bun, node, recharts alternative" />
+		<title>@crafter/charts — Recharts for your terminal</title>
+
+		<meta property="og:title" content="@crafter/charts — Recharts for your terminal" />
+		<meta property="og:description" content="15 chart types for terminals. Line, bar, scatter, candlestick, sparkline, heatmap, histogram, gauge. Zero deps, typed, braille rendering." />
+		<meta property="og:image" content="/og.png" />
+		<meta property="og:type" content="website" />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="@crafter/charts — Recharts for your terminal" />
+		<meta name="twitter:description" content="15 chart types for terminals. Zero deps, typed, braille rendering." />
+		<meta name="twitter:image" content="/og-twitter.png" />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+	</head>
+	<body>
+		<nav>
+			<div class="nav-inner">
+				<a href="/" class="logo">
+					<span class="logo-mono">@crafter/</span><span class="logo-serif">charts</span>
+				</a>
+				<div class="nav-links">
+					<a href="https://github.com/crafter-station/charts">GitHub</a>
+					<a href="https://www.npmjs.com/package/@crafter/charts">npm</a>
+					<a href="#examples">Examples</a>
+					<a href="#api">API</a>
+					<a href="#install" class="cta-btn">Get Started</a>
+				</div>
+			</div>
+		</nav>
+
+		<main>
+			<section class="hero">
+				<div class="hero-grid">
+					<div class="hero-text">
+						<p class="hero-label">TERMINAL-NATIVE CHARTS</p>
+						<h1>Recharts for<br />your terminal</h1>
+						<p class="hero-sub">Sparklines, line, bar, scatter, candlestick. Composable API, deterministic snapshots, zero deps.</p>
+						<div class="hero-actions">
+							<a href="#install" class="cta-btn">bun add @crafter/charts</a>
+							<span class="hero-meta">v0.1.0 &middot; &lt;50KB &middot; TypeScript</span>
+						</div>
+					</div>
+					<div class="hero-preview">
+						<div class="preview-card">
+							<div class="preview-header">
+								<span class="card-label">DASHBOARD</span>
+								<span class="card-meta">live metrics</span>
+							</div>
+							<div class="preview-body">
+								<div class="spark-row"><span class="spark-label">cpu</span><pre class="spark" set:html={demos.sparklineCpu} /></div>
+								<div class="spark-row"><span class="spark-label">mem</span><pre class="spark" set:html={demos.sparklineMemory} /></div>
+								<div class="spark-row"><span class="spark-label">req</span><pre class="spark" set:html={demos.sparklineStock} /></div>
+								<div class="spark-row"><span class="spark-label">err</span><pre class="spark" set:html={demos.sparklineErrors} /></div>
+								<div class="preview-divider"></div>
+								<pre class="chart-output hero-chart" set:html={demos.heroChart} />
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="install" id="install">
+				<h2>Install</h2>
+				<div class="code-block">
+					<Code code={installCode} lang="bash" theme={crafterTheme} />
+				</div>
+				<div class="code-block">
+					<Code code={usageCode} lang="typescript" theme={crafterTheme} />
+				</div>
+			</section>
+
+			<section class="examples" id="examples">
+				<h2>Examples</h2>
+
+				<div class="example-grid">
+					<div class="example-card wide">
+						<div class="card-header"><span class="card-label">PLOT()</span><span class="card-meta">one array in, chart out</span></div>
+						<pre class="chart-output" set:html={`<span class="muted">plot([sin, cos], { height: 10 })</span>\n\n${demos.plotOneliner}`} />
+					</div>
+					<div class="example-card">
+						<div class="card-header"><span class="card-label">SPARKLINES</span><span class="card-meta">6 inline variants</span></div>
+						<pre class="chart-output sparkline-demo" set:html={`<span class="muted">line</span>       ${demos.sparklineExample}\n<span class="muted">column</span>     ${demos.varColumn}\n<span class="muted">win/loss</span>   ${demos.varWinLoss}\n<span class="muted">bar 90%</span>    ${demos.varBar90}\n<span class="muted">bar 45%</span>    ${demos.varBar45}\n<span class="muted">bar 15%</span>    ${demos.varBar15}`} />
+					</div>
+					<div class="example-card">
+						<div class="card-header"><span class="card-label">AREA</span><span class="card-meta">multi-line, filled</span></div>
+						<pre class="chart-output" set:html={demos.varArea} />
+					</div>
+					<div class="example-card">
+						<div class="card-header"><span class="card-label">BOX CHARSET</span><span class="card-meta">classic ╭╮╰╯─│</span></div>
+						<pre class="chart-output" set:html={demos.lineBox} />
+					</div>
+					<div class="example-card">
+						<div class="card-header"><span class="card-label">LINE CHART</span><span class="card-meta">braille, 4x sub-pixel</span></div>
+						<pre class="chart-output" set:html={demos.lineSine} />
+					</div>
+					<div class="example-card">
+						<div class="card-header"><span class="card-label">BAR CHART</span><span class="card-meta">vertical</span></div>
+						<pre class="chart-output" set:html={demos.barRevenue} />
+					</div>
+					<div class="example-card">
+						<div class="card-header"><span class="card-label">FIXED DOMAIN</span><span class="card-meta">.yDomain([0, 25])</span></div>
+						<pre class="chart-output" set:html={demos.domainFixed} />
+					</div>
+					<div class="example-card">
+						<div class="card-header"><span class="card-label">SCATTER</span><span class="card-meta">braille 8x resolution</span></div>
+						<pre class="chart-output" set:html={demos.scatterBraille} />
+					</div>
+					<div class="example-card">
+						<div class="card-header"><span class="card-label">CANDLESTICK</span><span class="card-meta">OHLC, green/red</span></div>
+						<pre class="chart-output" set:html={demos.candlestick} />
+					</div>
+					<div class="example-card">
+						<div class="card-header"><span class="card-label">HEATMAP</span><span class="card-meta">commit activity</span></div>
+						<pre class="chart-output" set:html={demos.heatmap} />
+					</div>
+					<div class="example-card">
+						<div class="card-header"><span class="card-label">HISTOGRAM</span><span class="card-meta">distribution</span></div>
+						<pre class="chart-output" set:html={demos.histogram} />
+					</div>
+					<div class="example-card wide">
+						<div class="card-header"><span class="card-label">GAUGE + DONUT</span><span class="card-meta">auto-color by threshold</span></div>
+						<pre class="chart-output sparkline-demo" set:html={demos.gauges} />
+					</div>
+				</div>
+			</section>
+
+			<section class="api" id="api">
+				<h2>API</h2>
+				<div class="api-grid">
+					<div class="api-item">
+						<h3>plot(data, opts?)</h3>
+						<p>One array in, chart out. Multi-series, domain control, auto-everything.</p>
+						<div class="code-block">
+							<Code code={plotApiCode} lang="typescript" theme={crafterTheme} />
+						</div>
+					</div>
+					<div class="api-item">
+						<h3>sparkline / sparkColumn / sparkBar / sparkWinLoss / sparkArea</h3>
+						<p>6 inline variants. Line, column (with negatives), progress bar, win/loss, area (multi-line).</p>
+						<div class="code-block">
+							<Code code={sparklineApiCode} lang="typescript" theme={crafterTheme} />
+						</div>
+					</div>
+					<div class="api-item">
+						<h3>chart(opts?)</h3>
+						<p>Full builder. Chain .data(), .line(), .bar(), .scatter(), .candlestick(), .yDomain(), .xAxis(), .yAxis().</p>
+						<div class="code-block">
+							<Code code={chartApiCode} lang="typescript" theme={crafterTheme} />
+						</div>
+					</div>
+					<div class="api-item">
+						<h3>renderToAnsi / renderToString / renderToHtml</h3>
+						<p>Three output targets. ANSI for terminal, string for CI snapshots, HTML for web.</p>
+					</div>
+					<div class="api-item">
+						<h3>charset: "braille" | "box" | "ascii" | "block"</h3>
+						<p>Braille = 8x sub-pixel. Box = classic ╭╮╰╯─│ look. ASCII = max compatibility.</p>
+					</div>
+					<div class="api-item">
+						<h3>.yDomain([min, max])</h3>
+						<p>Fix the y-axis scale. Essential for dashboards with multiple charts that share a range.</p>
+					</div>
+				</div>
+			</section>
+
+			<section class="features">
+				<h2>Built for the agent era</h2>
+				<div class="feature-grid">
+					<div class="feature">
+						<span class="feature-icon">0</span>
+						<h3>Zero dependencies</h3>
+						<p>No runtime deps. Works with Bun and Node.</p>
+					</div>
+					<div class="feature">
+						<span class="feature-icon">&lt;50KB</span>
+						<h3>Tiny footprint</h3>
+						<p>Entire library under 50KB published.</p>
+					</div>
+					<div class="feature">
+						<span class="feature-icon">TS</span>
+						<h3>TypeScript strict</h3>
+						<p>Fully typed. No any.</p>
+					</div>
+					<div class="feature">
+						<span class="feature-icon">=</span>
+						<h3>Deterministic</h3>
+						<p>renderToString() is byte-stable. Use with toMatchSnapshot().</p>
+					</div>
+					<div class="feature">
+						<span class="feature-icon">⠿</span>
+						<h3>Braille rendering</h3>
+						<p>4x2 sub-pixel per character. 8x resolution vs ASCII.</p>
+					</div>
+					<div class="feature">
+						<span class="feature-icon">◐</span>
+						<h3>Auto-sized</h3>
+						<p>Detects terminal width. Responsive by default.</p>
+					</div>
+				</div>
+			</section>
+		</main>
+
+		<footer>
+			<p>
+				<a href="https://crafterstation.com">Crafter Station</a> &middot;
+				<a href="https://github.com/crafter-station/charts">GitHub</a> &middot;
+				<a href="https://www.npmjs.com/package/@crafter/charts">npm</a>
+			</p>
+		</footer>
+
+		<style>
+			:root {
+				--bg-primary: #1a2328;
+				--bg-secondary: #1e2a2f;
+				--bg-tertiary: #243338;
+				--bg-elevated: #2a3a40;
+				--accent: #d4943a;
+				--accent-hover: #b87a3d;
+				--accent-soft: #c8a45e;
+				--text-primary: #e8e0d4;
+				--text-secondary: #a89b8c;
+				--text-muted: #6b7c72;
+				--text-faded: #4a5c58;
+				--border-hairline: #2e3e44;
+				--border-subtle: #344a50;
+				--font-display: 'Newsreader', Charter, Georgia, serif;
+				--font-body: 'Inter', system-ui, sans-serif;
+				--font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+			}
+
+			* { margin: 0; padding: 0; box-sizing: border-box; }
+
+			html {
+				background: var(--bg-primary);
+				color: var(--text-primary);
+				font-family: var(--font-body);
+				font-size: 15px;
+				line-height: 1.6;
+				scroll-behavior: smooth;
+			}
+
+			nav {
+				border-bottom: 1px solid var(--border-hairline);
+				padding: 16px 0;
+				position: sticky;
+				top: 0;
+				background: var(--bg-primary);
+				z-index: 10;
+			}
+
+			.nav-inner {
+				max-width: 1100px;
+				margin: 0 auto;
+				padding: 0 24px;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+
+			.logo {
+				text-decoration: none;
+				font-size: 18px;
+			}
+
+			.logo-mono {
+				font-family: var(--font-mono);
+				color: var(--text-muted);
+				font-size: 14px;
+			}
+
+			.logo-serif {
+				font-family: var(--font-display);
+				color: var(--text-primary);
+				font-size: 20px;
+				font-weight: 500;
+			}
+
+			.nav-links {
+				display: flex;
+				align-items: center;
+				gap: 24px;
+			}
+
+			.nav-links a {
+				color: var(--text-secondary);
+				text-decoration: none;
+				font-size: 14px;
+				font-family: var(--font-body);
+				transition: color 150ms;
+			}
+
+			.nav-links a:hover { color: var(--text-primary); }
+
+			.cta-btn {
+				background: transparent;
+				border: 1px solid var(--accent);
+				color: var(--accent) !important;
+				padding: 6px 16px;
+				border-radius: 6px;
+				font-family: var(--font-mono) !important;
+				font-size: 13px !important;
+				transition: all 150ms;
+				text-decoration: none;
+				display: inline-block;
+			}
+
+			.cta-btn:hover {
+				background: var(--accent);
+				color: var(--bg-primary) !important;
+			}
+
+			main {
+				max-width: 1100px;
+				margin: 0 auto;
+				padding: 0 24px;
+			}
+
+			section {
+				padding: 80px 0;
+				border-bottom: 1px solid var(--border-hairline);
+			}
+
+			section:last-child { border-bottom: none; }
+
+			h1 {
+				font-family: var(--font-display);
+				font-size: clamp(36px, 6vw, 56px);
+				font-weight: 400;
+				line-height: 1.1;
+				letter-spacing: -0.02em;
+				margin-bottom: 20px;
+			}
+
+			h2 {
+				font-family: var(--font-display);
+				font-size: 32px;
+				font-weight: 400;
+				margin-bottom: 40px;
+				letter-spacing: -0.01em;
+			}
+
+			h3 {
+				font-family: var(--font-mono);
+				font-size: 14px;
+				font-weight: 500;
+				color: var(--accent-soft);
+				margin-bottom: 8px;
+			}
+
+			.hero-grid {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 48px;
+				align-items: center;
+			}
+
+			.hero-label {
+				font-family: var(--font-mono);
+				font-size: 11px;
+				letter-spacing: 0.08em;
+				color: var(--text-muted);
+				text-transform: uppercase;
+				margin-bottom: 16px;
+			}
+
+			.hero-sub {
+				color: var(--text-secondary);
+				font-size: 16px;
+				line-height: 1.6;
+				margin-bottom: 32px;
+			}
+
+			.hero-actions {
+				display: flex;
+				align-items: center;
+				gap: 16px;
+				flex-wrap: wrap;
+			}
+
+			.hero-meta {
+				font-family: var(--font-mono);
+				font-size: 12px;
+				color: var(--text-faded);
+			}
+
+			.preview-card {
+				background: var(--bg-secondary);
+				border: 1px solid var(--border-hairline);
+				border-radius: 8px;
+				overflow: hidden;
+			}
+
+			.preview-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 10px 16px;
+				border-bottom: 1px solid var(--border-hairline);
+			}
+
+			.preview-body {
+				padding: 12px 16px;
+			}
+
+			.preview-divider {
+				border-top: 1px solid var(--border-hairline);
+				margin: 10px 0;
+			}
+
+			.hero-chart {
+				font-size: 10px;
+				padding: 0;
+			}
+
+			.spark-row {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				padding: 3px 0;
+			}
+
+			.spark-label {
+				font-family: var(--font-mono);
+				font-size: 10px;
+				color: var(--text-muted);
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+				width: 24px;
+				text-align: right;
+			}
+
+			.spark {
+				font-family: var(--font-mono);
+				font-size: 13px;
+				color: var(--accent);
+				margin: 0;
+				line-height: 1.0;
+			}
+
+			.code-block {
+				border: 1px solid var(--border-hairline);
+				border-radius: 8px;
+				overflow: hidden;
+				margin-bottom: 16px;
+			}
+
+			.code-block :global(pre) {
+				padding: 16px 20px !important;
+				margin: 0 !important;
+				border-radius: 0 !important;
+				font-family: var(--font-mono) !important;
+				font-size: 13px !important;
+				line-height: 1.6 !important;
+			}
+
+			.code-block :global(code) {
+				font-family: var(--font-mono) !important;
+			}
+
+			.example-grid {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 16px;
+			}
+
+			.sparkline-demo {
+				font-size: 14px;
+				line-height: 1.8;
+			}
+
+			.example-card {
+				background: var(--bg-secondary);
+				border: 1px solid var(--border-hairline);
+				border-radius: 8px;
+				overflow: hidden;
+			}
+
+			.muted { color: var(--text-muted); }
+
+			.example-card.wide {
+				grid-column: 1 / -1;
+			}
+
+			.chart-img {
+				width: 100%;
+				height: auto;
+				display: block;
+				border-radius: 8px;
+			}
+
+			.hero-img {
+				width: 100%;
+				height: auto;
+				display: block;
+				border-radius: 8px;
+			}
+
+			.card-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 12px 16px;
+				border-bottom: 1px solid var(--border-hairline);
+			}
+
+			.card-label {
+				font-family: var(--font-mono);
+				font-size: 11px;
+				letter-spacing: 0.08em;
+				color: var(--accent-soft);
+				text-transform: uppercase;
+			}
+
+			.card-meta {
+				font-family: var(--font-mono);
+				font-size: 11px;
+				color: var(--text-faded);
+			}
+
+			.chart-output {
+				font-family: var(--font-mono);
+				font-size: 12px;
+				line-height: 1.0;
+				color: var(--text-primary);
+				padding: 16px;
+				margin: 0;
+				overflow-x: auto;
+				white-space: pre;
+			}
+
+			.api-grid {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 20px;
+			}
+
+			.api-item {
+				background: var(--bg-secondary);
+				border: 1px solid var(--border-hairline);
+				border-radius: 8px;
+				padding: 20px;
+			}
+
+			.api-item p {
+				color: var(--text-secondary);
+				font-size: 14px;
+				margin-bottom: 12px;
+			}
+
+			.api-item .code-block {
+				background: var(--bg-tertiary);
+				margin-bottom: 0;
+			}
+
+			.feature-grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 20px;
+			}
+
+			.feature {
+				padding: 24px;
+				border: 1px solid var(--border-hairline);
+				border-radius: 8px;
+			}
+
+			.feature-icon {
+				display: inline-block;
+				font-family: var(--font-mono);
+				font-size: 18px;
+				color: var(--accent);
+				margin-bottom: 12px;
+			}
+
+			.feature h3 {
+				color: var(--text-primary);
+				font-family: var(--font-body);
+				font-size: 15px;
+				font-weight: 600;
+			}
+
+			.feature p {
+				color: var(--text-secondary);
+				font-size: 14px;
+			}
+
+			footer {
+				border-top: 1px solid var(--border-hairline);
+				padding: 32px 24px;
+				text-align: center;
+			}
+
+			footer a {
+				color: var(--text-muted);
+				text-decoration: none;
+				font-size: 13px;
+				font-family: var(--font-mono);
+			}
+
+			footer a:hover { color: var(--text-primary); }
+
+			@media (max-width: 768px) {
+				.hero-grid { grid-template-columns: 1fr; gap: 32px; }
+				.example-grid, .api-grid { grid-template-columns: 1fr; }
+				.example-card.wide { grid-column: 1; }
+				.feature-grid { grid-template-columns: 1fr 1fr; }
+				.nav-links { gap: 12px; }
+				.nav-links a:not(.cta-btn) { display: none; }
+			}
+
+			@media (max-width: 480px) {
+				.feature-grid { grid-template-columns: 1fr; }
+			}
+		</style>
+		<script>
+			import { inject } from "@vercel/analytics";
+			inject();
+		</script>
+	</body>
+</html>

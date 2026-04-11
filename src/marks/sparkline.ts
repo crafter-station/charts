@@ -41,3 +41,28 @@ export function renderSparkline(data: number[], options: SparklineOptions = {}):
 export function renderSparklineString(data: number[], options: SparklineOptions = {}): string {
 	return renderSparkline(data, { ...options, color: undefined });
 }
+
+const COLOR_TO_CSS: Record<string, string> = {
+	red: "#ef4444",
+	green: "#22c55e",
+	yellow: "#eab308",
+	blue: "#3b82f6",
+	magenta: "#d946ef",
+	cyan: "#06b6d4",
+	white: "#e8e0d4",
+	gray: "#6b7c72",
+};
+
+export function renderSparklineHtml(data: number[], options: SparklineOptions = {}): string {
+	if (data.length === 0) return "";
+	const width = options.width ?? data.length;
+	const sampled = downsample(data, width);
+	const min = options.min ?? Math.min(...sampled);
+	const max = options.max ?? Math.max(...sampled);
+	const chars = sampled.map((v) => blockChar(v, min, max)).join("");
+	if (options.color) {
+		const css = COLOR_TO_CSS[options.color] ?? options.color;
+		return `<span style="color:${css}">${chars}</span>`;
+	}
+	return chars;
+}
