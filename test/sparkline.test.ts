@@ -4,7 +4,7 @@ import { sparkline, renderSparklineString } from "../src";
 describe("sparkline", () => {
 	it("renders basic sparkline", () => {
 		const result = sparkline([1, 5, 3, 7, 2, 8]);
-		expect(result).toBe(" ▅▂▇▁█");
+		expect(result).toBe("▁▅▂▇▁█");
 	});
 
 	it("handles empty data", () => {
@@ -33,7 +33,7 @@ describe("sparkline", () => {
 
 	it("renders full range correctly", () => {
 		const result = sparkline([0, 1], { min: 0, max: 1 });
-		expect(result).toBe(" █");
+		expect(result).toBe("▁█");
 	});
 
 	it("downsamples when width is smaller than data", () => {
@@ -66,4 +66,14 @@ describe("sparkline", () => {
 		const elapsed = (performance.now() - start) / 100;
 		expect(elapsed).toBeLessThan(1);
 	});
+
+	it("renders the series minimum as a visible glyph, not a space", () => {
+		// BLOCK_CHARS[0] is a space, so flooring the index at 0 makes the lowest
+		// value in a series invisible and indistinguishable from missing data.
+		// bar.ts already floors at 1; blockChar did not.
+		const out = sparkline([0, 0, 50, 80, 30]);
+		expect(out).not.toContain(" ");
+		expect(out.startsWith("▁")).toBe(true);
+	});
 });
+
