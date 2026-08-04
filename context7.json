@@ -1,0 +1,12 @@
+{
+  "projectTitle": "@crafter/charts",
+  "description": "Zero-dependency TypeScript library that renders terminal charts as strings: braille line, bar, scatter, candlestick via a composable builder, plus inline sparklines, heatmaps, histograms, and gauges.",
+  "folders": [],
+  "excludeFolders": ["node_modules", "dist", ".next"],
+  "rules": [
+    "Install as @crafter/charts, not charts",
+    "Pass the builder to renderToAnsi/renderToString/renderToHtml; they call .build() internally",
+    "For CI snapshots use renderToString with explicit width, height, and yDomain",
+    "ESM only; use import, not require"
+  ]
+}
