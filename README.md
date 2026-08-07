@@ -103,3 +103,8 @@ console.log(renderToAnsi(fixed));
 ## License
 
 MIT
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the mark/encoder/charset
+architecture and how to add a new mark.
