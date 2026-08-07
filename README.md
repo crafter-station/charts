@@ -42,6 +42,26 @@ const c = chart({ width: 60, height: 14 })
 console.log(renderToAnsi(c));
 ```
 
+## Fixed Domain
+
+Use `.yDomain([min, max])` when the scale should stay fixed across renders:
+
+```ts
+import { chart, renderToAnsi } from "@crafter/charts";
+
+const rows = Array.from({ length: 12 }, (_, i) => ({
+  x: i,
+  price: Math.round(40 + Math.sin(i / 2) * 30),
+}));
+
+const fixed = chart({ width: 60, height: 14 })
+  .data(rows, { xKey: "x" })
+  .yDomain([0, 100])
+  .line({ key: "price", color: "green", label: "Price" });
+
+console.log(renderToAnsi(fixed));
+```
+
 ## Chart Types
 
 | Type | Function | Inline? |
@@ -83,3 +103,8 @@ console.log(renderToAnsi(c));
 ## License
 
 MIT
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the mark/encoder/charset
+architecture and how to add a new mark.
