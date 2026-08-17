@@ -1,0 +1,27 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`renderToHtml line chart snapshot 1`] = `
+"       │   <span style="color:#22c55e">⡠⠊⠉⢢</span>                <span style="color:#22c55e">⢀⠔⠉⠱⡀</span>    
+       │  <span style="color:#22c55e">⡰⠁</span>   <span style="color:#22c55e">⠣⡀</span>             <span style="color:#22c55e">⢠⠃</span>   <span style="color:#22c55e">⠑⡄</span>   
+     80┤ <span style="color:#22c55e">⢠⠃</span>     <span style="color:#22c55e">⢱</span>            <span style="color:#22c55e">⢀⠎</span>     <span style="color:#22c55e">⠘⡄</span>  
+       │<span style="color:#22c55e">⢀⠎</span>       <span style="color:#22c55e">⡇</span>          <span style="color:#22c55e">⢀⠎</span>       <span style="color:#22c55e">⢣</span>  
+     60┤<span style="color:#22c55e">⡜</span>        <span style="color:#22c55e">⠸⡀</span>         <span style="color:#22c55e">⡸</span>        <span style="color:#22c55e">⠘⡄</span> 
+     40┤<span style="color:#22c55e">⠁</span>         <span style="color:#22c55e">⢱</span>        <span style="color:#22c55e">⢀⠇</span>         <span style="color:#22c55e">⠱⡀</span>
+       │           <span style="color:#22c55e">⢇</span>       <span style="color:#22c55e">⡜</span>           <span style="color:#22c55e">⢣</span>
+     20┤           <span style="color:#22c55e">⠘⡄</span>     <span style="color:#22c55e">⡸</span>             
+       │            <span style="color:#22c55e">⠘⡄</span>   <span style="color:#22c55e">⢠⠃</span>             
+       │             <span style="color:#22c55e">⠘⠤⣀⠔⠁</span>              "
+`;
+
+exports[`renderToHtml bar chart snapshot 1`] = `
+"    500┤                         <span style="color:#3b82f6">████</span>   
+       │                         <span style="color:#3b82f6">████</span>   
+    400┤               <span style="color:#3b82f6">████</span>      <span style="color:#3b82f6">████</span>   
+       │               <span style="color:#3b82f6">████</span>      <span style="color:#3b82f6">████</span>   
+       │               <span style="color:#3b82f6">████</span> <span style="color:#3b82f6">████</span> <span style="color:#3b82f6">████</span>   
+    300┤               <span style="color:#3b82f6">████</span> <span style="color:#3b82f6">████</span> <span style="color:#3b82f6">████</span>   
+       │     <span style="color:#3b82f6">████</span>      <span style="color:#3b82f6">████</span> <span style="color:#3b82f6">████</span> <span style="color:#3b82f6">████</span>   
+    200┤     <span style="color:#3b82f6">████</span>      <span style="color:#3b82f6">████</span> <span style="color:#3b82f6">████</span> <span style="color:#3b82f6">████</span>   
+       │     <span style="color:#3b82f6">████</span> <span style="color:#3b82f6">████</span> <span style="color:#3b82f6">████</span> <span style="color:#3b82f6">████</span> <span style="color:#3b82f6">████</span>   
+       │<span style="color:#3b82f6">████</span> <span style="color:#3b82f6">████</span> <span style="color:#3b82f6">████</span> <span style="color:#3b82f6">████</span> <span style="color:#3b82f6">████</span> <span style="color:#3b82f6">████</span>   "
+`;
